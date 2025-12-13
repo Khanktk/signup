@@ -129,44 +129,40 @@ async function createUser() {
       <form @submit.prevent="createUser">
         <FieldGroup>
           <Field>
-            <FieldLabel for="name">
-              Full Name
-            </FieldLabel>
-            <Input id="name" type="text" placeholder="John Doe" v-model="name" />
-            <p v-if="emptyName" class="text-red-600 text-center text-sm mt-2">{{ emptyName }}</p>
-          </Field>
-          <Field>
-            <FieldLabel for="email">
-              Email
-            </FieldLabel>
-            <Input
-              id="email"
-              type="email"
-              placeholder="m@example.com"
-              v-model="email"
-            />
-            <FieldDescription>
-              We'll use this to contact you. We will not share your email with
-              anyone else.
-            </FieldDescription>
-            <p v-if="emptyName" class="text-red-600 text-center text-sm mt-2">{{ emptyEmail }}</p>
-          </Field>
-          <Field>
-            <FieldLabel for="password">
-              Password
-            </FieldLabel>
-            <Input id="password" type="password" v-model="password" />
-            <FieldDescription>Must be at least 8 characters long.</FieldDescription>
-            <p v-if="emptyName" class="text-red-600 text-center text-sm mt-2">{{ emptyPassword }}</p>
-          </Field>
-          <Field>
-            <FieldLabel for="confirm-password">
-              Confirm Password
-            </FieldLabel>
-            <Input id="confirm-password" type="password" v-model="confirmPassword" />
-            <FieldDescription>Please confirm your password.</FieldDescription>
-            <p v-if="emptyName" class="text-red-600 text-center text-sm mt-2">{{ emptyConfirmPassword }}</p>
-          </Field>
+  <FieldLabel for="name">Full Name</FieldLabel>
+  <Input id="name" v-model="name" />
+  <p v-if="emptyName" class="text-red-600 text-sm mt-2 text-center">
+    {{ emptyName }}
+  </p>
+</Field>
+
+<Field>
+  <FieldLabel for="email">Email</FieldLabel>
+  <Input id="email" v-model="email" />
+  <p v-if="emptyEmail" class="text-red-600 text-sm mt-2 text-center">
+    {{ emptyEmail }}
+  </p>
+</Field>
+
+<Field>
+  <FieldLabel for="password">Password</FieldLabel>
+  <Input id="password" type="password" v-model="password" />
+  <p v-if="emptyPassword" class="text-red-600 text-sm mt-2 text-center">
+    {{ emptyPassword }}
+  </p>
+</Field>
+
+<Field>
+  <FieldLabel for="confirm-password">Confirm Password</FieldLabel>
+  <Input id="confirm-password" type="password" v-model="confirmPassword" />
+  <p
+    v-if="emptyConfirmPassword"
+    class="text-red-600 text-sm mt-2 text-center"
+  >
+    {{ emptyConfirmPassword }}
+  </p>
+</Field>
+
           <!-- SUCCESS MESSAGE -->
           <p v-if="successMessage" class="text-green-600 text-center text-sm mt-2">{{ successMessage }}</p>
 
