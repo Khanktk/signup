@@ -53,9 +53,8 @@ const router = createRouter({
   routes,
 })
 
-/* =============================
-   ROUTE GUARD
-============================= */
+//ROUTE GUARD
+
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem("authToken")
 

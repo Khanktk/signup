@@ -33,6 +33,7 @@ const createPost = async () => {
   successMessage.value = ""
   errorMessage.value = ""
 
+  // Frontend validation
   if (!form.value.title || !form.value.body) {
     errorMessage.value = "Title and body are required"
     return
@@ -42,7 +43,9 @@ const createPost = async () => {
 
   try {
     const token = localStorage.getItem("authToken")
-    if (!token) throw new Error("Not authenticated")
+    if (!token) {
+      throw new Error("Not authenticated")
+    }
 
     await axios.post(
       "http://192.168.18.141:8000/api/posts",
@@ -51,21 +54,50 @@ const createPost = async () => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        timeout: 8000, // prevents hanging requests
       }
     )
 
+    // SUCCESS
     successMessage.value = "Post created successfully"
 
-    // reset form AFTER success message is set
     form.value.title = ""
     form.value.body = ""
+
   } catch (err: any) {
-    errorMessage.value =
-      err?.response?.data?.message ?? "Failed to create post"
+
+    // API RESPONDED WITH ERROR
+    if (err.response) {
+      if (err.response.status === 401) {
+        errorMessage.value = "Session expired. Please login again."
+      } else if (err.response.status === 422) {
+        // Laravel / validation errors
+        const errors = err.response.data?.errors
+        errorMessage.value =
+          errors?.title?.[0] ||
+          errors?.body?.[0] ||
+          err.response.data?.message ||
+          "Validation failed"
+      } else {
+        errorMessage.value =
+          err.response.data?.message ||
+          "Server error while creating post"
+      }
+
+    // REQUEST MADE BUT NO RESPONSE (SERVER OFF / NETWORK)
+    } else if (err.request) {
+      errorMessage.value = err.message || "Cannot connect to server. Please check your internet connection."
+
+    // ANY OTHER ERROR
+    } else {
+      errorMessage.value = err.message || "Unexpected error occurred"
+    }
+
   } finally {
     loading.value = false
   }
 }
+
 </script>
 
 <template>

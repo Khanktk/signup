@@ -68,6 +68,7 @@ async function loginUser() {
     if (res.data?.data) {
 
       const token = res.data.data.token
+      console.log('go get token',res.data);
       const user = res.data.data.user
 
       localStorage.setItem("authToken", token)

@@ -14,7 +14,7 @@ import {
 
 const router = useRouter()
 
-const logout = () => {
+function logout () {
   localStorage.removeItem("authToken")
   localStorage.removeItem("currentUser")
   router.replace("/login")
